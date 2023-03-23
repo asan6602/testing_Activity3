@@ -44,7 +44,12 @@ class TestExtApiInterface(unittest.TestCase):
                 return self.json_data
             else:
                 None
-        self.api.make_request = Mock(side_effect=check_input)
+        self.api.make_request = Mock(side_effect=check_input)       
+        self.assertEqual(self.api.is_book_available(self.book), True)
+
+    def test_is_book_available_size_one_true(self):
+        book = self.book
+        self.api.make_request = Mock(return_value=self.Mukhopadhyay_data)
         self.assertEqual(self.api.is_book_available(self.book), True)
 
     def test_is_book_available_False(self):

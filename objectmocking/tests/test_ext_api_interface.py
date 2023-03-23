@@ -57,7 +57,12 @@ class TestExtApiInterface(unittest.TestCase):
         self.assertEqual(self.api.is_book_available("Nope"), False)
 
     def test_books_by_author(self):
-        self.api.make_request = Mock(return_value=self.Mukhopadhyay_data)
+        def check_input(url):
+            if url == "%s?author=%s" % ("http://openlibrary.org/search.json","Sayan Mukhopadhyay"):
+                return self.Mukhopadhyay_data
+            else:
+                None
+        self.api.make_request = Mock(side_effect=check_input)
         self.assertEqual(self.api.books_by_author("Sayan Mukhopadhyay"), ['Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples'])
 
     def test_books_by_author_not(self):

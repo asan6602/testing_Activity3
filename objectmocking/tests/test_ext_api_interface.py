@@ -30,9 +30,15 @@ class TestExtApiInterface(unittest.TestCase):
         self.assertEqual(self.api.make_request(""), None)
 
     def test_get_ebooks(self):
-        self.api.make_request = Mock(return_value=self.json_data)
-        self.assertEqual(self.api.get_ebooks(self.book), self.books_data)
-
+        book = self.book
+        def check_input(url):
+            if url == "%s?q=%s" % ("http://openlibrary.org/search.json",book):
+                return self.json_data
+            else:
+                None
+        self.api.make_request = Mock(side_effect=check_input)
+        self.assertEqual(self.api.get_ebooks(book), self.books_data)
+        
     def test_get_ebooks_not(self):
         self.api.make_request = Mock(return_value=None)
         self.assertEqual(self.api.get_ebooks("no"), [])

@@ -56,7 +56,7 @@ class Library_DB:
             return None
         query = Query()
         data = self.convert_patron_to_db_format(patron)
-        self.db.update(data, query.memberID == patron.get_memberID())
+        self.db.update(data, query.memberID != patron.get_memberID())
 
     def retrieve_patron(self, memberID):
         """Gets a Patron from the database.

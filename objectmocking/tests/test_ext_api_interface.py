@@ -76,7 +76,12 @@ class TestExtApiInterface(unittest.TestCase):
         self.assertEqual(self.api.books_by_author("Sayan_Mu"), [])
 
     def test_get_book_info(self):
-        self.api.make_request = Mock(return_value=self.Mukhopadhyay_data)
+        def check_input(url):
+            if url == "%s?q=%s" % ("http://openlibrary.org/search.json","Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples"):
+                return self.Mukhopadhyay_data
+            else:
+                None
+        self.api.make_request = Mock(side_effect=check_input)
         self.assertEqual(self.api.get_book_info("Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples"), [{'title': 'Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples', 'publisher': ['Apress'], 'publish_year': [2018], 'language': 'English'}])
 
     def test_get_book_info_not(self):

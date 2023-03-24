@@ -40,7 +40,7 @@ class TestLibrary(unittest.TestCase):
 
     def test_register_patron(self):
         patron = Patron("Bob", "Jones", 30, 1)
-        def check(self):
+        def check(patron):
             if patron is not None:
                 return 1
             else:

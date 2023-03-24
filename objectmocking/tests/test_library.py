@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import Mock
 from library import library
 import json
+from library.patron import Patron
 
 class TestLibrary(unittest.TestCase):
 
@@ -38,7 +39,13 @@ class TestLibrary(unittest.TestCase):
         self.assertEqual(self.lib.get_languages_for_book("Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples"),{'E', 'l', 'h', 'n', 'g', 's', 'i'})
 
     def test_register_patron(self):
-        self.lib.db.insert_patron = Mock(return_value=1)
+        patron = Patron("Bob", "Jones", 30, 1)
+        def check(self):
+            if patron is not None:
+                return 1
+            else:
+                None
+        self.lib.db.insert_patron = Mock(side_effect=check)
         self.assertEqual(self.lib.register_patron("Bob", "Jones", 30, 1), 1)
 
     def test_is_patron_registered_true(self):

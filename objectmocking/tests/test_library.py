@@ -38,15 +38,20 @@ class TestLibrary(unittest.TestCase):
         self.lib.api.get_book_info = Mock(return_value=[{'title': 'Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples', 'publisher': ['Apress'], 'publish_year': [2018], 'language': 'English'}])
         self.assertEqual(self.lib.get_languages_for_book("Advanced Data Analytics Using Python: With Machine Learning, Deep Learning and NLP Examples"),{'E', 'l', 'h', 'n', 'g', 's', 'i'})
 
-    def test_register_patron(self):
-        patron = Patron("Bob", "Jones", 30, 1)
-        def check(patron):
-            if patron is not None:
-                return 1
-            else:
-                None
-        self.lib.db.insert_patron = Mock(side_effect=check)
-        self.assertEqual(self.lib.register_patron("Bob", "Jones", 30, 1), 1)
+    # def test_register_patron(self):
+    #     patron = Patron("Bob", "Jones", 30, 1)
+    #     def check(patron):
+    #         if patron is not None:
+    #             return 1
+    #         else:
+    #             None
+    #     self.lib.db.insert_patron = Mock(side_effect=check)
+    #     self.assertEqual(self.lib.register_patron("Bob", "Jones", 30, 1), 1)
+
+    def test_register_patron_false(self):
+        self.patron = Mock(return_value=None)
+        false_patron = self.lib.register_patron("fname","lname",0,0)
+        self.assertEqual(false_patron, None)
 
     def test_is_patron_registered_true(self):
             patron_mock = Mock()

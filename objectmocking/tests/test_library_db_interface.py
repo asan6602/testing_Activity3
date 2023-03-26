@@ -56,8 +56,13 @@ class TestLibbraryDBInterface(unittest.TestCase):
     def test_update_patron(self):
         data = {'fname': 'name', 'lname': 'name', 'age': 'age', 'memberID': 'memberID',
                 'borrowed_books': []}
-        self.db_interface.convert_patron_to_db_format = Mock(return_value=data)
-        db_update_mock = Mock()
+        def check(data):
+            if data is not None:
+                return data
+            else:
+                None
+        self.db_interface.convert_patron_to_db_format = Mock(return_value=check(data))
+        db_update_mock = Mock(return_value=check(data))
         self.db_interface.db.update = db_update_mock
         self.db_interface.update_patron(Mock())
         db_update_mock.assert_called()
